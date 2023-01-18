@@ -30,9 +30,9 @@ def add_choice(request):
 def All_question(request):
     qs=Question.objects.all()
     ch=Choice.objects.all()
-    # if request.method=='POST':
-    #     ch1=request.POST.get('question_id')
-    #     for i in range(ch1):
-    #         Choice(total_votes = vot )
-    #         Choice.save()
+    if request.method=='POST':
+        ch1=Question.objects.values_list(id)
+        for i in range(ch1):
+            Choice(total_votes = vot )
+            Choice.save()
     return render(request, 'quiz.html' ,{'question':qs , 'choices':ch}) 
