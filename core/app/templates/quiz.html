@@ -23,7 +23,7 @@
                 <h4><span>{{ forloop.counter }} : </span> {{question1.title}}</h4>
                     {% for choice in choices %}
                     {% if question1.id == choice.question.id %}
-                     <input type="radio" name="question_id{{question1.id}}" value="{{choice.id}}"> {{choice.title}}  (Vote = {{choice.total_votes}} )<br>
+                     <input type="radio" name="{{question1.id}}" value="{{choice.id}}"> {{choice.title}}  (Vote = {{choice.total_votes}} )<br>
                     {% endif %}
                     {% endfor %}
 

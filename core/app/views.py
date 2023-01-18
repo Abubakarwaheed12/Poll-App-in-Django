@@ -27,12 +27,16 @@ def add_choice(request):
         options=Question.objects.all()
         return render(request, 'choice.html' , {'options':options})
 
+
 def All_question(request):
     qs=Question.objects.all()
     ch=Choice.objects.all()
     if request.method=='POST':
-        ch1=Question.objects.values_list(id)
-        for i in range(ch1):
-            Choice(total_votes = vot )
-            Choice.save()
+        for question1 in Question.objects.all():
+            ch_id=request.POST.get(str(question1.id))
+            c=Choice.objects.get(id = ch_id)
+            c.total_votes=c.total_votes + 1
+            c.save()
+            messages.success(request, 'Your Vote Added Successfully')
+            
     return render(request, 'quiz.html' ,{'question':qs , 'choices':ch}) 
