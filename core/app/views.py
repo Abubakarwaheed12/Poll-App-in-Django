@@ -2,6 +2,7 @@ from django.shortcuts import render
 from app.models import Choice ,Question
 from django.contrib import messages
 
+# add question view
 def add_question(request):
     if request.method=='POST':
         title=request.POST.get('ques')
@@ -13,7 +14,7 @@ def add_question(request):
     return render(request, 'index.html')
 
 
-
+# choice view
 def add_choice(request):
     if request.method=='POST':
         choice_title=request.POST.get('choice')
@@ -27,7 +28,7 @@ def add_choice(request):
         options=Question.objects.all()
         return render(request, 'choice.html' , {'options':options})
 
-
+# Poll Section view
 def All_question(request):
     qs=Question.objects.all()
     ch=Choice.objects.all()
