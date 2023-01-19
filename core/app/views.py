@@ -37,6 +37,6 @@ def All_question(request):
             c=Choice.objects.get(id = ch_id)
             c.total_votes=c.total_votes + 1
             c.save()
-            messages.success(request, 'Your Vote Added Successfully')
+        messages.success(request, 'Your Vote Added Successfully')
             
     return render(request, 'quiz.html' ,{'question':qs , 'choices':ch}) 
