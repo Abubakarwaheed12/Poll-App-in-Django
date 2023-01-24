@@ -1,12 +1,34 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up</title>
-</head>
-<body>
+{% load static %}
+{% include 'header.html' %}
+
+<div class="container-fluid">
+<div class="container">
+
+<h3 class="alert alert-success mb-3 text-center"> Sign Up</h3>
+
+<form action="" method="post">
+    {% csrf_token %}
+    <div class="form-group">
+        <label for="username">username</label>
+        <input class="form-control" type="text" name="username" id="username">
+    </div>
+
+    <div class="form-group">
+        <label for="email">email</label>
+        <input  class="form-control"  type="email" name="email" id="email">
+    </div>
+
+    <div class="form-group">
+        <label for="pass1">password</label>
+        <input  class="form-control"  type="password" name="pass1" id="pass1">
+    </div>
+    <div class="form-group">
+        <label for="username">Confirm password</label>
+        <input  class="form-control"  type="password" name="pass2" id="pass2">
+    </div>
+    <input class="btn btn-primary" type="submit" value="Submit">
+</form>
+
     
-</body>
-</html>
+</div>
+</div>
