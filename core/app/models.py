@@ -17,4 +17,4 @@ class Choice(models.Model):
         return f"{self.title} - ({self.question.title})"
     
     
-    # 
+    # add new model of voters for checking if voter already voted or not 
