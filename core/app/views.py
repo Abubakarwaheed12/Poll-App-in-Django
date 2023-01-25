@@ -1,4 +1,4 @@
-from django.shortcuts import render , HttpResponseRedirect
+from django.shortcuts import render , HttpResponseRedirect , HttpResponse
 from app.models import Choice ,Question
 from django.contrib import messages
 from django.contrib.auth import authenticate
@@ -41,9 +41,13 @@ def All_question(request):
         if request.method=='POST':
             for question1 in Question.objects.all():
                 ch_id=request.POST.get(str(question1.id))
-                c=Choice.objects.get(id = ch_id)
-                c.total_votes=c.total_votes + 1
-                c.save()
+                voters = [user.id for user in Voter.objects.filter(poll__id=ch_id)]
+                if request.user.id in voters:
+                    return HttpResponse('you have already voted')   
+                else:
+                    c=Choice.objects.get(id = ch_id)
+                    c.total_votes=c.total_votes + 1
+                    c.save()
             messages.success(request, 'Your Vote Added Successfully')
                 
         return render(request, 'quiz.html' ,{'question':qs , 'choices':ch}) 
