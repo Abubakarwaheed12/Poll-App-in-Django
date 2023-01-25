@@ -20,8 +20,8 @@ class Choice(models.Model):
     
     # add new model of voters
 class Voter(models.Model):
-    user = models.ForeignKey(User , on_delete=models.CASCADE)
-    poll = models.ForeignKey(Question , on_delete=models.CASCADE)
+    user = models.ForeignKey(User , on_delete=models.DO_NOTHING)
+    poll = models.ForeignKey(Question , on_delete=models.DO_NOTHING)
     
     def __str__(self):
         return f'{self.user} , {self.poll}'
