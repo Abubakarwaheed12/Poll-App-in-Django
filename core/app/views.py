@@ -1,5 +1,6 @@
 from django.shortcuts import render , HttpResponseRedirect , HttpResponse
-from app.models import Choice ,Question ,Voter
+from app.models import Choice ,Question, Vote
+from django.db.models import Count, Q
 from django.contrib import messages
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
@@ -37,22 +38,17 @@ def add_choice(request):
 # Poll Section view
 def All_question(request):
     if request.user.is_authenticated:
-        qs=Question.objects.all()
-        ch=Choice.objects.all()
+        qs=Question.objects.all().annotate(is_user_already_voted=Count("voted_by", filter=Q(voted_by=request.user.id)))
         if request.method=='POST':
-            for question1 in Question.objects.all():
-                ch_id=request.POST.get(str(question1.id))
-                if Voter.objects.filter(poll_id=ch_id, user_id=request.user.id).exists():
-                    pass
-                else:
-                    p=Question(id=ch_id)
-                    c=Choice.objects.get(id = ch_id)
-                    c.total_votes=c.total_votes + 1
-                    c.save()
-                    v = Voter(user=request.user, poll=p)
-                    v.save()
+            for question in Question.objects.all():
+                ch_id=request.POST.get(f"question-{question.id}")
+                if ch_id:
+                    Vote.objects.create(
+                        question=question,
+                        choice_id=ch_id,
+                        user=request.user
+                    )
             messages.success(request, 'Your Vote Added Successfully')
-        user_exist=Voter.objects.filter(user=request.user).last()
-        return render(request, 'quiz.html' ,{'question':qs , 'choices':ch , 'user_exist':user_exist}) 
+        return render(request, 'quiz.html' ,{'questions':qs}) 
     else:
         return HttpResponseRedirect('accounts/login')

@@ -16,29 +16,17 @@
 
             <form action="" method="Post">
                 {% csrf_token %}
-                {% for question1 in question %}
-                <h4><span>{{ forloop.counter }} : </span> {{question1.title}}</h4>
-                {% for choice in choices %}
-                {% if question1.id == choice.question.id %}
+                {% for question in questions %}
+                <h4><span>{{ forloop.counter }} : </span> {{question.title}}</h4>
+                {% for choice in question.choices.all %}
                 <!-- check if user exist already or not  -->
-                {% if user_exist == None %}
-                <input type="radio" name="{{question1.id}}" value="{{choice.id}}" required> {{choice.title}} (Vote =
-                {{choice.total_votes}} )<br>
-                {% else %}
-                <input type="radio" name="{{question1.id}}" value="{{choice.id}}" disabled> {{choice.title}} (Vote =
-                {{choice.total_votes}} )<br>
-                {% endif %}
-
-                {% endif %}
+                <input type="radio" name="question-{{question.id}}" value="{{choice.id}}" {% if question.is_user_already_voted %}disabled {% endif %}> {{choice.title}} (Vote =
+                {{question.voted_by.count}} )<br>
                 {% endfor %}
-
                 {% endfor %}
                    <!-- check if user exist already or not  -->
-                   {% if user_exist == None %}
-                <input type="submit" value="submit" class="btn btn-success m-2">
-                {% else %}
-                <input type="submit" value="submit" class="btn btn-success m-2" disabled>
-                {% endif %}
+                <input type="submit" value="submit" class="btn btn-success m-2" {% if question.is_user_already_voted %}disabled{% endif %}>
+                
             </form>
 
 

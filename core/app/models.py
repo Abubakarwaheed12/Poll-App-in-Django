@@ -1,28 +1,28 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.conf import settings
+
+
+class Vote(models.Model):
+    question = models.ForeignKey("Question", on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    choice = models.ForeignKey("Choice", on_delete=models.CASCADE)
+    voted_at = models.DateTimeField(auto_now_add=True)
+
 
 # Create your models here.
 class Question(models.Model):
     title=models.CharField(max_length=200)
     q_date=models.DateTimeField(auto_now_add=True)
-    
+    voted_by = models.ManyToManyField(settings.AUTH_USER_MODEL, through=Vote)
     def __str__(self):
         return f"{self.title} - ({str(self.q_date.time())})"
-    
-class Choice(models.Model):
-    question=models.ForeignKey(Question, on_delete=models.CASCADE)
-    title=models.CharField(max_length=100)
-    total_votes=models.IntegerField(default=0)
 
+class Choice(models.Model):
+    question=models.ForeignKey(Question, on_delete=models.CASCADE, related_name="choices")
+    title=models.CharField(max_length=100)
+    
     def __str__(self):
         return f"{self.title} - ({self.question.title})"
-    
-    
-    # add new model of voters
-class Voter(models.Model):
-    user = models.ForeignKey(User , on_delete=models.DO_NOTHING)
-    poll = models.ForeignKey(Question , on_delete=models.DO_NOTHING)
-    
-    def __str__(self):
-        return f'{self.user} , {self.poll}'
+
         
