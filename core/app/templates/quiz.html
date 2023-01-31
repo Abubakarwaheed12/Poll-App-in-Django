@@ -20,16 +20,16 @@
                 <h4><span>{{ forloop.counter }} : </span> {{question.title}}</h4>
                 {% for choice in question.choices.all %}
                 <!-- check if user exist already or not  -->
-                <input type="radio" name="question-{{question.id}}" value="{{choice.id}}" {% if question.is_user_already_voted %}disabled {% endif %}> {{choice.title}} (Vote =
-                {{question.voted_by.count}} )<br>
+                <input type="radio" name="question-{{question.id}}" value="{{choice.id}}" {% if choice.is_user_already_voted  %}disabled {% endif %}> {{choice.title}} (Vote =
+                {{choice.voted_by.count}} )<br>
+                
                 {% endfor %}
                 {% endfor %}
                    <!-- check if user exist already or not  -->
-                <input type="submit" value="submit" class="btn btn-success m-2" {% if question.is_user_already_voted %}disabled{% endif %}>
+                <input type="submit" value="submit" class="btn btn-success m-2" {% if choice.is_user_already_voted %}disabled{% endif %}>
                 
             </form>
-
-
+            
             <a href="{% url 'addquesion' %}" class="btn btn-info mt-3 center">Add Question</a>
 
         </div>

@@ -38,7 +38,8 @@ def add_choice(request):
 # Poll Section view
 def All_question(request):
     if request.user.is_authenticated:
-        qs=Question.objects.all().annotate(is_user_already_voted=Count("voted_by", filter=Q(voted_by=request.user.id)))
+        ch=Choice.objects.all().annotate(is_user_already_voted=Count("voted_by", filter=Q(voted_by=request.user.id)))
+        qs=Question.objects.all()
         if request.method=='POST':
             for question in Question.objects.all():
                 ch_id=request.POST.get(f"question-{question.id}")
@@ -49,7 +50,7 @@ def All_question(request):
                         user=request.user
                     )                    
             messages.success(request, 'Your Vote Added Successfully')
-        ch=Choice.objects.all()
-        return render(request, 'quiz.html' ,{'questions':qs}) 
+        # ch=Choice.objects.all()
+        return render(request, 'quiz.html' ,{'questions':qs , 'choices':ch}) 
     else:
         return HttpResponseRedirect('accounts/login')
