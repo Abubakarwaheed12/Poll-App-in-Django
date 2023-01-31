@@ -6,10 +6,17 @@
 
 
         <h3 class="alert alert-success mb-3 text-center"> Login</h3>
+               <!-- Messages -->
+               {% if messages %}
+               {% for message in messages %}
+               <div class="alert alert-success alert-dismissible">
+                   <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                   <strong>Success!</strong> {{message}}
+               </div>
+               {% endfor %}
+               {% endif %}
         <form action="" method="POST">
-
             {% csrf_token %}
-
             <div class="form-group">
                 <label for="username">username</label>
                 <input class="form-control" type="text" name="username" id="username">

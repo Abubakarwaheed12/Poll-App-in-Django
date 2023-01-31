@@ -47,8 +47,9 @@ def All_question(request):
                         question=question,
                         choice_id=ch_id,
                         user=request.user
-                    )
+                    )                    
             messages.success(request, 'Your Vote Added Successfully')
+        ch=Choice.objects.all()
         return render(request, 'quiz.html' ,{'questions':qs}) 
     else:
         return HttpResponseRedirect('accounts/login')

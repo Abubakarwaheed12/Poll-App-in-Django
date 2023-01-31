@@ -2,6 +2,7 @@ from django.shortcuts import render , HttpResponse ,redirect ,HttpResponseRedire
 from django.contrib.auth.models import User 
 from django.contrib.auth import authenticate ,login , logout
 from .models import userRoles
+from django.contrib import messages
 # Create your views here.
 
 def loginuser(request):
@@ -12,9 +13,14 @@ def loginuser(request):
         print(uname,pass1)
         if user1 is not None:
             login(request,user1)
-            return redirect('addquesion')
+            role=userRoles.objects.get(user=request.user)
+            if role.is_teacher:
+                return redirect('addquesion')
+            else:
+                return redirect('quiz')
         else:
-            return HttpResponse('your password does not match')
+            messages.warning(request, 'your password does not match')
+            return render(request, 'login.html')
     return render(request, 'login.html')
 
 
@@ -28,7 +34,7 @@ def signup(request):
         pass2=request.POST.get('pass2')
         userrole=request.POST.get('role')
         if  pass1!=pass2:
-                return HttpResponse('dkjs')
+                return HttpResponse('your password does not match')
         else:
             myusr=User.objects.create_user(uname ,email ,pass1)
             userRoles.objects.create(user=myusr , is_teacher=userrole == 'Teacher')
