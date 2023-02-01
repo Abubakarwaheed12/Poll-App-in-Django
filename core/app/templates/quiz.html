@@ -1,38 +1,39 @@
 {% load static %}
 {% include 'header.html' %}
 
-    <div class="container-fluid">
-        <div class="container">
-            <p class="text-center alert alert-info mt-5">Poll</p>
-            <!-- Messages -->
-            {% if messages %}
-            {% for message in messages %}
-            <div class="alert alert-success alert-dismissible">
-                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                <strong>Success!</strong> {{message}}
-            </div>
-            {% endfor %}
-            {% endif %}
-
-            <form action="" method="Post">
-                {% csrf_token %}
-                {% for question in questions %}
-                <h4><span>{{ forloop.counter }} : </span> {{question.title}}</h4>
-                {% for choice in question.choices.all %}
-                <!-- check if user exist already or not  -->
-                <input type="radio" name="question-{{question.id}}" value="{{choice.id}}" {% if choice.is_user_already_voted  %}disabled {% endif %}> {{choice.title}} (Vote =
-                {{choice.voted_by.count}} )<br>
-                
-                {% endfor %}
-                {% endfor %}
-                   <!-- check if user exist already or not  -->
-                <input type="submit" value="submit" class="btn btn-success m-2" {% if choice.is_user_already_voted %}disabled{% endif %}>
-                
-            </form>
-            
-            <a href="{% url 'addquesion' %}" class="btn btn-info mt-3 center">Add Question</a>
-
+<div class="container-fluid">
+    <div class="container">
+        <p class="text-center alert alert-info mt-5">Poll</p>
+        <!-- Messages -->
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-success alert-dismissible">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>Warning!</strong> {{message}}
         </div>
+        {% endfor %}
+        {% endif %}
+
+        <form action="" method="Post">
+            {% csrf_token %}
+            {% for question in questions %}
+            <h4><span>{{ forloop.counter }} : </span> {{question.title}}</h4>
+            {% for choice in question.choices.all %}
+            <!-- check if user exist already or not  -->
+            <input type="radio" name="question-{{question.id}}" value="{{choice.id}}" {% if .is_user_already_voted %}
+                disabled {% endif %}> {{choice.title}} (Vote =
+            {{choice.voted_by.count}} )<br>
+
+
+            {% endfor %}
+            {% endfor %}
+            <!-- check if user exist already or not  -->
+            <input type="submit" value="submit" class="btn btn-success m-2" {% if choice.is_user_already_voted
+                %}disabled{% endif %}>
+
+        </form>
+
+        <a href="{% url 'addquesion' %}" class="btn btn-info mt-3 center">Add Question</a>
+
     </div>
-
-
+</div>

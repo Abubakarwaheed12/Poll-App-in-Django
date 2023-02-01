@@ -36,7 +36,7 @@ def signup(request):
         pass2=request.POST.get('pass2')
         userrole=request.POST.get('role')
         if  pass1!=pass2:
-                return HttpResponse('your password does not match')
+                messages.warning(request, 'your password does not match')
         else:
             myusr=User.objects.create_user(uname ,email ,pass1)
             userRoles.objects.create(user=myusr , is_teacher=userrole == 'Teacher')

@@ -2,38 +2,49 @@
 {% include 'header.html' %}
 
 <div class="container-fluid">
-<div class="container">
+    <div class="container">
 
-<h3 class="alert alert-success mb-3 text-center"> Sign Up</h3>
+        <h3 class="alert alert-success mb-3 text-center"> Sign Up</h3>
+        <!-- Messages -->
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-success alert-dismissible">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>Success!</strong> {{message}}
+        </div>
+        {% endfor %}
+        {% endif %}
+        <form action="" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="username">username</label>
+                <input class="form-control" type="text" name="username" id="username">
+            </div>
 
-<form action="" method="post">
-    {% csrf_token %}
-    <div class="form-group">
-        <label for="username">username</label>
-        <input class="form-control" type="text" name="username" id="username">
+            <div class="form-group">
+                <label for="email">email</label>
+                <input class="form-control" type="email" name="email" id="email">
+            </div>
+
+            <div class="form-group">
+                <label for="pass1">password</label>
+                <input class="form-control" type="password" name="pass1" id="pass1">
+            </div>
+            <div class="form-group">
+                <label for="username">Confirm password</label>
+                <input class="form-control" type="password" name="pass2" id="pass2">
+            </div>
+
+            <select name="role" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+                <option value="">Select Role</option>
+                <option value="Teacher">Teacher</option>
+                <option value="Student">Student</option>
+            </select>
+            
+
+            <input class="btn btn-primary" type="submit" value="Submit">
+        </form>
+
+
     </div>
-
-    <div class="form-group">
-        <label for="email">email</label>
-        <input  class="form-control"  type="email" name="email" id="email">
-    </div>
-
-    <div class="form-group">
-        <label for="pass1">password</label>
-        <input  class="form-control"  type="password" name="pass1" id="pass1">
-    </div>
-    <div class="form-group">
-        <label for="username">Confirm password</label>
-        <input  class="form-control"  type="password" name="pass2" id="pass2">
-    </div>
-    <select name="role" id="">
-        <option value="">Select Role</option>
-        <option value="Teacher">Teacher</option>
-        <option value="Student">Student</option>
-    </select>
-    <input class="btn btn-primary" type="submit" value="Submit">
-</form>
-
-    
-</div>
 </div>
