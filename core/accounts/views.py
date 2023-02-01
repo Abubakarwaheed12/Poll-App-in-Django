@@ -3,6 +3,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate ,login , logout
 from .models import userRoles
 from django.contrib import messages
+
+
 # Create your views here.
 
 def loginuser(request):
@@ -46,3 +48,6 @@ def signup(request):
 def logoutuser(request):
     logout(request)
     return HttpResponseRedirect('login')
+
+
+#Custom  decorator for checking if user is teacher or student then on itS base user will redirect to other Pages 
