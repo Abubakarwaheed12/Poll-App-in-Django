@@ -40,7 +40,8 @@ def signup(request):
         else:
             myusr=User.objects.create_user(uname ,email ,pass1)
             userRoles.objects.create(user=myusr , is_teacher=userrole == 'Teacher')
-            return render(request, 'login.html')
+            
+        return render(request, 'login.html')
 
     return render(request, 'signup.html')
 

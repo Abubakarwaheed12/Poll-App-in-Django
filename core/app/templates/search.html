@@ -33,5 +33,6 @@
         </table>
     </div>
     
+    <a href="{% if user.is_teacher %} {% url 'addquesion' %} {% else %} {% url 'quiz' %} {% endif %} " class="btn btn-info mt-3 center">Home</a>
  </div>
  </div>

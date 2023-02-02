@@ -28,12 +28,11 @@
             {% endfor %}
             {% endfor %}
             <!-- check if user exist already or not  -->
-            <input type="submit" value="submit" class="btn btn-success m-2" {% if choice.is_user_already_voted
-                %}disabled{% endif %}>
+            <input type="submit" value="submit" class="btn btn-success m-2" {% if choice.is_user_already_voted %} disabled {% endif %}>
 
         </form>
 
-        <a href="{% url 'addquesion' %}" class="btn btn-info mt-3 center">Add Question</a>
+        <a href="{% url 'search' %}" class="btn btn-info mt-3 center">Search Users</a>
 
     </div>
 </div>

@@ -77,6 +77,7 @@ def All_question(request):
     
 
 def search(request):
+    user=userRoles.objects.get(user=request.user)
     users=User.objects.all()
     q=request.GET.get('q')
     print(q)
@@ -88,5 +89,6 @@ def search(request):
         q=''
     context={
         'users':users,
-    }
+        'role':user,
+         }
     return render(request, 'search.html' , context=context)
