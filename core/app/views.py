@@ -74,22 +74,42 @@ def All_question(request):
 
 # function for highlighted 
 
-# def  highlighted(name,u):
-    
+def highlighted(name, q,c):
+    qt=q
+    if name.find(qt.title())!=-1:
+        qt=q.title()
+        c+=name.count(qt.title())
+    elif name.find(qt.lower())!=-1:
+        qt=q.lower()
+        c+=name.count(qt.lower())
+    elif name.find(qt.upper())!=-1:
+        qt=q.upper()
+        c+=name.count(qt.upper())
+    return [qt, f'<span style="background-color:red;">{q}</span>' , c]
+        
 
 def search(request):
     user=userRoles.objects.get(user=request.user)
     users=User.objects.all()
     q=request.GET.get('q')
-    print(q)
+    # print(q)
+    c=0
     if q:
-        users=users.filter(username__contains=q)
+        users=users.filter(Q(id__contains=q) | Q(username__contains=q) | Q(email__contains=q))
         for user in users:
-            user.username=user.username.replace(q, '<span style="background-color:red;">' + q + '</span>')
+            [qi,qi_span,c]=highlighted(str(user.id), q, c)
+            [qu,qu_span,c]=highlighted(user.username, q, c)
+            [qe,qe_span,c]=highlighted(user.email, q, c)
+            # print(c)
+            
+            user.id=str(user.id).replace(qi, qi_span)
+            user.username=user.username.replace(qu, qu_span)
+            user.email=user.email.replace(qe, qe_span)
     if q==None:
         q=''
     context={
         'users':users,
         'role':user,
+        'value':c,
          }
     return render(request, 'search.html' , context=context)

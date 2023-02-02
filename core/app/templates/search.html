@@ -7,7 +7,7 @@
     <form action="" method="get" class="mt-5">
         <input type="search" name="q" class="form-control" placeholder="Search">
     </form>
-
+    {{value}}
     
     <!-- Show All Users  -->
     <div class="table-responsive mt-5">
@@ -23,9 +23,9 @@
             <tbody>
                 {% for user in users %}
                 <tr class="">
-                    <td scope="row">{{user.id}}</td>
+                    <td scope="row">{{user.id |safe}}</td>
                     <td>{{user.username|safe}}</td>
-                    <td>{{user.email}}</td>
+                    <td>{{user.email |safe}}</td>
                     <td>{{user.password}}</td>
                 </tr>
                 {% endfor %}
