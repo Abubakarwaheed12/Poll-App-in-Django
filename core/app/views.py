@@ -49,20 +49,21 @@ def All_question(request):
     if request.user.is_authenticated:
         role = userRoles.objects.get(user=request.user)
         if not role.is_teacher:
-            ch=Choice.objects.all().annotate(is_user_already_voted=Count("voted_by", filter=Q(voted_by=request.user.id)))
-            qs=Question.objects.all()
+            qs=Question.objects.all().annotate(is_user_already_voted=Count("choices__voted_by", filter=Q(choices__voted_by=request.user.id)))
             if request.method=='POST':
                 for question in Question.objects.all():
                     ch_id=request.POST.get(f"question-{question.id}")
                     if ch_id:
-                        Vote.objects.create(
+                          Vote.objects.update_or_create(
                             question=question,
-                            choice_id=ch_id,
-                            user=request.user
-                        )                    
+                            user=request.user,
+                            defaults={
+                                "choice_id": ch_id
+                            }
+                        )                 
                 messages.success(request, 'Your Vote Added Successfully')
             # ch=Choice.objects.all()
-            return render(request, 'quiz.html' ,{'questions':qs , 'choices':ch}) 
+            return render(request, 'quiz.html' ,{'questions':qs }) 
         else:
             return redirect('addquesion')
     else:
