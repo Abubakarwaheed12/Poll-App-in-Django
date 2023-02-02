@@ -67,3 +67,26 @@ def All_question(request):
             return redirect('addquesion')
     else:
         return HttpResponseRedirect('accounts/login')
+    
+
+# SEARCH FORM 
+
+# function for highlighted 
+
+# def  highlighted(name,u):
+    
+
+def search(request):
+    users=User.objects.all()
+    q=request.GET.get('q')
+    print(q)
+    if q:
+        users=users.filter(username__contains=q)
+        for user in users:
+            user.username=user.username.replace(q, '<span style="background-color:red;">' + q + '</span>')
+    if q==None:
+        q=''
+    context={
+        'users':users,
+    }
+    return render(request, 'search.html' , context=context)
