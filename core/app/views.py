@@ -113,3 +113,5 @@ def search(request):
         'value':c,
          }
     return render(request, 'search.html' , context=context)
+
+# D
